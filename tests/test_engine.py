@@ -116,7 +116,7 @@ def run(browser_name: str) -> list[str]:
         page.keyboard.press("Escape")
         page.keyboard.press("g")
         page.wait_for_function("document.activeElement && document.activeElement.id === 'palette-input'")
-        page.keyboard.type("quiz")
+        page.keyboard.type("presentador")
         check(page.locator("#palette li").count() >= 1, "G abre la búsqueda", fails)
         page.keyboard.press("Escape")
 
