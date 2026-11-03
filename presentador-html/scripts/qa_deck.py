@@ -30,6 +30,7 @@ CHECK_JS = r"""
   function bgOf(el) {
     const layers = []; let e = el;
     while (e && e !== document.documentElement) {
+      if (e.matches && e.matches('section.slide.has-bg')) return { image: true };  // texto sobre foto de fondo
       const cs = getComputedStyle(e);
       if (cs.backgroundImage && cs.backgroundImage !== 'none' && !cs.backgroundImage.startsWith('linear-gradient') && !cs.backgroundImage.startsWith('radial-gradient')) return { image: true };
       const c = parse(cs.backgroundColor); if (c && c.a > 0) { layers.push(c); if (c.a >= 1) break; }

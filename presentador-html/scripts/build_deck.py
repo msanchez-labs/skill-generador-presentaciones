@@ -278,7 +278,7 @@ class Renderer:
         shape = " round" if f.get("shape") == "circle" else ""
         self.i += 1
         return (f'<div class="rise figure{shape}" style="--fig:{size}px;--i:{self.i}">'
-                f'{self.ph(dict(f, fit=f.get("fit", "contain"), credit=None), "", size * 2, size * 2)}</div>')
+                f'{self.ph(dict(f, fit=f.get("fit", "cover" if shape else "contain"), credit=None), "", size * 2, size * 2)}</div>')
 
     def content_block(self, s) -> str:
         return (self.figure(s) + self.eyebrow(s) + self.chips(s) + self.title(s) + self.lead(s) + self.text(s)
@@ -434,7 +434,7 @@ class Renderer:
         lis = "".join(f'<li{self.a()}><button class="quiz-opt" type="button" data-correct="{1 if o.get("correct") else 0}">'
                       f'<span class="letter">{letters[k]}</span><span data-edit>{md_inline(o.get("text"))}</span></button></li>' for k, o in enumerate(ops))
         fb = f'<div class="quiz-feedback" data-edit>{md_inline(s.get("explanation"))}</div>' if s.get("explanation") else ""
-        return self.eyebrow(s) + self.title(s) + self.lead(s) + f'<ol class="quiz-options">{lis}</ol>' + fb
+        return self.figure(s) + self.eyebrow(s) + self.title(s) + self.lead(s) + f'<ol class="quiz-options">{lis}</ol>' + fb
 
     def r_diagram(self, s):
         d = s.get("svg")

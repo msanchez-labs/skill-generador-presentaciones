@@ -65,6 +65,9 @@ body.idle{cursor:none}
 @layer components {
   .ph{position:relative;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:var(--radius);overflow:hidden;background-color:var(--surface)}
   .ph.contain{background-size:contain;background-color:transparent}
+  .figure{width:var(--fig,200px);height:var(--fig,200px);margin:0 0 28px;flex:none}
+  .figure .ph{width:100%;height:100%;background-color:transparent;border-radius:0}
+  .figure.round .ph{border-radius:50%;background-size:cover}
   .slide>.bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
   .slide>.bg.kenburns{animation:none}
   .slide.active>.bg.kenburns{animation:kb 14s ease-out both}
@@ -241,8 +244,10 @@ body.idle{cursor:none}
   .box.decision p{font-size:30px;line-height:1.35;margin:0;font-weight:600}
 
   /* quiz */
-  .t-quiz .quiz-options{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-  .quiz-opt{width:100%;min-height:150px;display:flex;align-items:center;gap:28px;text-align:left;padding:36px 40px;border-radius:var(--radius);background:var(--surface);border:3px solid var(--line);font-size:38px;line-height:1.25;cursor:pointer;transition:transform .15s,border-color .2s,background .2s}
+  .t-quiz .figure{position:absolute;right:var(--pad-x);top:var(--pad-y);margin:0}
+  .t-quiz .figure~.title,.t-quiz .figure~.eyebrow{max-width:1300px}
+  .t-quiz .quiz-options{list-style:none;margin:72px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .quiz-opt{width:100%;min-height:190px;display:flex;align-items:center;gap:28px;text-align:left;padding:36px 40px;border-radius:var(--radius);background:var(--surface);border:3px solid var(--line);font-size:38px;line-height:1.25;cursor:pointer;transition:transform .15s,border-color .2s,background .2s}
   .quiz-opt:hover{transform:translateY(-3px);border-color:var(--accent)}
   .quiz-opt .letter{flex:none;width:72px;height:72px;border-radius:14px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-weight:800}
   .quiz-opt.correct{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--surface))}
@@ -260,11 +265,6 @@ body.idle{cursor:none}
   .t-cta ul.actions{list-style:none;margin:56px 0 0;padding:0;display:flex;flex-direction:column;gap:24px}
   .t-cta ul.actions li{display:flex;align-items:center;gap:32px;font-size:48px;line-height:1.25}
   .t-cta ul.actions li .ai{width:92px;height:92px;flex:none;border-radius:24px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);font-size:46px}
-
-  /* figura pequeña sobre el título (logo, ícono-imagen, ilustración) */
-  .figure{width:var(--fig,200px);height:var(--fig,200px);margin:0 0 28px;flex:none}
-  .figure .ph{width:100%;height:100%;background-color:transparent;border-radius:0}
-  .figure.round .ph{border-radius:50%;background-size:cover}
 
   /* chips */
   .chips{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 26px}
@@ -348,8 +348,8 @@ body.idle{cursor:none}
   body.drawing #hud .draw-only{display:grid}
   body.drawing #hud .swatch.draw-only{display:block}
 
-  #panel{position:fixed;top:0;right:0;bottom:0;width:420px;z-index:820;background:#14161d;color:#eceef3;transform:translateX(100%);transition:transform .3s var(--ease-out);display:flex;flex-direction:column;font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:-10px 0 30px rgba(0,0,0,.35)}
-  body.panel-open #panel{transform:none}
+  #panel{position:fixed;top:0;right:0;bottom:0;width:420px;z-index:820;background:#14161d;color:#eceef3;transform:translateX(100%);transition:transform .3s var(--ease-out),visibility .3s;display:flex;flex-direction:column;font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;visibility:hidden}
+  body.panel-open #panel{transform:none;visibility:visible;box-shadow:-10px 0 30px rgba(0,0,0,.35)}
   #panel header{display:flex;align-items:center;gap:6px;padding:12px;border-bottom:1px solid var(--ui-line)}
   #panel header button{border:0;background:transparent;color:var(--ui-muted);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:650}
   #panel header button.on{background:rgba(255,255,255,.1);color:#fff}
