@@ -18,7 +18,8 @@
       "Buen ritmo de ascenso",
       "¡Casi cumbre!",
       "¡Cumbre conquistada!"
-    ]
+    ],
+    "notyet": "Aún no haces cumbre"
   },
   "sfx": {
     "correct": "rise",

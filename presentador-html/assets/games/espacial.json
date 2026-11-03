@@ -18,7 +18,8 @@
       "Cadete espacial",
       "Piloto estelar",
       "¡Comandante de la misión!"
-    ]
+    ],
+    "notyet": "Casi en órbita: aún no aterrizas"
   },
   "sfx": {
     "correct": "rocket",

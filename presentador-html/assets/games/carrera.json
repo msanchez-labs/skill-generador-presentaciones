@@ -18,7 +18,8 @@
       "Buen ritmo de carrera",
       "¡Podio asegurado!",
       "¡Campeón del circuito!"
-    ]
+    ],
+    "notyet": "¡Buena carrera! Aún no cruzas la meta"
   },
   "sfx": {
     "correct": "engine",

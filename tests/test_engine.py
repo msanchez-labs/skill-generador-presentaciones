@@ -93,6 +93,26 @@ def run(browser_name: str) -> list[str]:
         check(page.evaluate(f"(Deck.state.ink['{sid}']||[]).length") == 0, "Ctrl+Z deshace el trazo", fails)
         page.keyboard.press("Escape")
 
+        # borrador y vista en limpio
+        page.keyboard.press("d")
+        page.mouse.move(320, 320)
+        page.mouse.down()
+        for k in range(8):
+            page.mouse.move(320 + k * 30, 330)
+        page.mouse.up()
+        page.keyboard.press("Escape")
+        page.keyboard.press("Shift+V")
+        check(page.evaluate(f"(Deck.state.drafts['{sid}']||[]).length") == 1 and page.evaluate(f"(Deck.state.ink['{sid}']||[]).length") == 0,
+              "Shift+V guarda el borrador y deja la slide en limpio", fails)
+        page.keyboard.press("v")
+        check(page.evaluate("Deck.state.prefs.inkHidden === true"), "V oculta los trazos (vista en limpio)", fails)
+        page.keyboard.press("v")
+        page.keyboard.press("m")
+        check(page.evaluate("document.body.classList.contains('hud-hidden')"), "M oculta el menú", fails)
+        page.keyboard.press("m")
+        page.keyboard.press("m")
+        check(page.evaluate("Deck.state.prefs.hud === 'auto'"), "M vuelve al menú automático", fails)
+
         # comentario anclado
         page.keyboard.press("Shift+C")
         page.mouse.click(800, 450)

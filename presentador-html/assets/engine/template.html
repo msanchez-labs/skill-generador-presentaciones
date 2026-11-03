@@ -47,6 +47,8 @@
   <button data-tool="eraser" class="draw-only" title="Borrador (X)">{{ICON:eraser}}</button>
   <button data-act="undo" class="draw-only" title="Deshacer (Ctrl+Z)">{{ICON:undo-2}}</button>
   <button data-act="clear" class="draw-only" title="Limpiar slide (C)">{{ICON:trash-2}}</button>
+  <button data-act="ink-toggle" title="Ver / ocultar trazos · vista en limpio (V)">{{ICON:eye}}</button>
+  <button data-act="ink-draft" title="Guardar borrador y dejar en limpio (Shift+V)">{{ICON:archive}}</button>
   <span id="swatches"></span>
   <span class="sep"></span>
   <button data-tool="comment" title="Comentario (Shift+C)">{{ICON:message-square-plus}}</button>
@@ -59,12 +61,14 @@
   <button data-act="fullscreen" title="Pantalla completa (F)">{{ICON:maximize}}</button>
   <button data-act="save" title="Guardar como HTML (Ctrl+S)">{{ICON:download}}</button>
   <button data-act="help" title="Atajos (?)">{{ICON:keyboard}}</button>
+  <button data-act="hud" title="Menú: automático / oculto / fijo (M)">{{ICON:panel-bottom-close}}</button>
 </nav>
 
 <aside id="panel" aria-label="Notas y comentarios">
   <header>
     <button data-tab="notes" class="on">Mis notas</button>
     <button data-tab="comments">Comentarios</button>
+    <button data-tab="changes">Cambios</button>
     <button class="x" data-act="panel" title="Cerrar">{{ICON:x}}</button>
   </header>
   <section class="tab on" data-tab="notes">
@@ -74,6 +78,10 @@
       <button data-act="export-md">Exportar minuta (.md)</button>
       <button data-act="copy-md">Copiar</button>
     </div>
+  </section>
+  <section class="tab" data-tab="changes">
+    <div class="slide-ref">Slides con trazos, borradores, comentarios, notas o ediciones. Clic para ir.</div>
+    <div id="changes-list"></div>
   </section>
   <section class="tab" data-tab="comments">
     <div class="actions"><button data-act="comment-mode">+ Nuevo comentario</button><button data-act="export-md">Exportar (.md)</button></div>

@@ -9,7 +9,12 @@
     "fragments": false,
     "quizPoints": 10,
     "bigIdea": "Un buen prompt da contexto, intención y restricciones: con eso Copilot acierta a la primera.",
-    "game": "espacial"
+    "game": "espacial",
+    "evaluation": {
+      "passPercent": 100,
+      "passMessage": "¡Misión cumplida! Ya dominas:",
+      "reviewMessage": "Buen vuelo. Para completar la misión, repasa:"
+    }
   },
   "slides": [
     {
@@ -62,7 +67,10 @@
       ],
       "explanation": "La opción B da **contexto** (.NET 8), **intención** (API de clientes) y **restricciones** (validación, pruebas).",
       "sfx": "rise",
-      "timing": 60
+      "timing": 60,
+      "topic": "Las 3 piezas de un buen prompt",
+      "learned": "Escribes prompts con contexto, intención y restricciones",
+      "review": "Las 3 piezas de un prompt: contexto, intención y restricciones"
     },
     {
       "type": "process",
@@ -108,7 +116,10 @@
         }
       ],
       "explanation": "El error es contexto valioso: pégalo y pide una corrección específica.",
-      "timing": 45
+      "timing": 45,
+      "topic": "Qué hacer si la sugerencia falla",
+      "learned": "Usas el error como contexto para pedir una corrección",
+      "review": "Si la sugerencia no compila, pega el error y pide una corrección específica"
     },
     {
       "type": "finish",

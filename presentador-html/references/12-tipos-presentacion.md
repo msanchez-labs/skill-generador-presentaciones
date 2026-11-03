@@ -10,7 +10,10 @@
 | `comercial` | Que avancen al siguiente paso de compra | Prospecto, cliente | 15–30 min | Storytelling |
 | `capacitacion` | Que sepan hacer algo | Equipo, usuarios, clientes, partners | 30–120 min | Explicativo |
 | `capacitacion-comercial` | Que vendan / adopten mejor (sales enablement, onboarding de clientes) | Fuerza de venta, partners, clientes | 30–90 min | Explicativo + Lúdico |
+| `guia-estudio` | Que repasen solos y se autoevalúen | Estudiantes, equipos | autoestudio | Explicativo |
 | `gamificada` | Que participen y retengan | Cualquier grupo en vivo | 20–90 min | Lúdico |
+
+**Regla de gamificación:** solo en `capacitacion`, `capacitacion-comercial`, `guia-estudio` y `gamificada`. Nunca en `ejecutiva`, `estatus` ni `comercial` (el objetivo es decidir o convencer, no evaluar).
 
 ---
 
