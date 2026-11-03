@@ -41,6 +41,7 @@ def run(browser_name: str) -> list[str]:
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(DECK.as_uri())
         page.wait_for_function("window.Deck && Deck.count > 0")
+        page.mouse.click(5, 5)  # asegura foco del documento (WebKit)
         n = page.evaluate("Deck.count")
         check(n == 14, f"carga {n} slides", fails)
 
@@ -81,7 +82,7 @@ def run(browser_name: str) -> list[str]:
         sid = page.evaluate("document.querySelector('#stage > section.slide.active').dataset.id")
         strokes = page.evaluate(f"(Deck.state.ink['{sid}']||[]).length")
         check(strokes == 1, "D + arrastrar crea un trazo", fails)
-        page.keyboard.press("Control+z")
+        page.keyboard.press("ControlOrMeta+z")
         check(page.evaluate(f"(Deck.state.ink['{sid}']||[]).length") == 0, "Ctrl+Z deshace el trazo", fails)
         page.keyboard.press("Escape")
 
@@ -128,7 +129,7 @@ def run(browser_name: str) -> list[str]:
 
         # guardar como HTML
         with page.expect_download() as dl:
-            page.keyboard.press("Control+s")
+            page.keyboard.press("ControlOrMeta+s")
         path = dl.value.path()
         saved = Path(path).read_text(encoding="utf-8") if path else ""
         check("Revisar este dato" in saved, "Ctrl+S descarga HTML con comentarios incluidos", fails)

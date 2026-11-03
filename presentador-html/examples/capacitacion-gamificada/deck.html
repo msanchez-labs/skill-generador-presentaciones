@@ -1106,7 +1106,7 @@ body.idle{cursor:none}
     ['Ctrl+S', 'Guardar como HTML'], ['Ctrl+P', 'Imprimir / PDF'], ['U', 'Sonido'], ['A', 'Avance automático'], ['Esc', 'Salir de herramienta / panel'], ['?', 'Esta ayuda']
   ];
   function openHelp() { $('#help-list').innerHTML = KEYS.map(k => '<div class="k"><span>' + esc(k[1]) + '</span><kbd>' + esc(k[0]) + '</kbd></div>').join(''); $('#help').classList.add('on'); }
-  function closeOverlays() { let any = false; $$('.overlay.on').forEach(o => { o.classList.remove('on'); any = true; }); return any; }
+  function closeOverlays() { let any = false; $$('.overlay.on').forEach(o => { if (o.contains(document.activeElement)) document.activeElement.blur(); o.classList.remove('on'); any = true; }); return any; }
 
   /* ---------------- Pantalla completa ---------------- */
   let wakeLock = null;
