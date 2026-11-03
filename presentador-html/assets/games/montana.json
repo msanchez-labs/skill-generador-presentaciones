@@ -1,0 +1,41 @@
+{
+  "label": "Expedición a la cumbre",
+  "avatar": "backpack",
+  "start": "tent",
+  "end": "mountain-snow",
+  "vocab": {
+    "points": "metros",
+    "challenge": "Tramo",
+    "final": "Ataque a cumbre",
+    "start": "Campamento base",
+    "goal": "Cumbre",
+    "correct": "¡Subiste {p} m!",
+    "wrong": "Resbalón: sin avance",
+    "finish": "¡Hiciste cumbre!",
+    "reset": "De vuelta al campamento",
+    "tiers": [
+      "Sigue aclimatándote",
+      "Buen ritmo de ascenso",
+      "¡Casi cumbre!",
+      "¡Cumbre conquistada!"
+    ]
+  },
+  "sfx": {
+    "correct": "rise",
+    "wrong": "error",
+    "finish": "fanfare"
+  },
+  "themeOverrides": {
+    "colors": {
+      "accent": "#2b6cb0",
+      "accent2": "#38a169"
+    }
+  },
+  "confetti": [
+    "#2b6cb0",
+    "#38a169",
+    "#ffffff",
+    "#e2e8f0"
+  ],
+  "deco": "peaks"
+}

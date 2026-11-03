@@ -269,6 +269,43 @@
   .badge{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:8px;background:var(--accent);color:var(--on-accent)}
 }
 
+/* ---------------- Gamificación temática ---------------- */
+@layer components {
+  .gamebar{position:absolute;left:var(--pad-x);right:var(--pad-x);top:18px;height:60px;z-index:45;display:flex;align-items:center;gap:36px;padding:0 26px;border-radius:999px;
+    background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid var(--line);font-size:22px;font-weight:700;color:var(--muted);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .gamebar svg.i{font-size:30px;color:var(--accent)}
+  .gb-start,.gb-end{display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .gb-end{font-variant-numeric:tabular-nums}
+  .gb-track{position:relative;flex:1;height:12px;border-radius:6px;background:repeating-linear-gradient(90deg,var(--line) 0 26px,transparent 26px 40px)}
+  .gb-fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p,0) * 100%);border-radius:6px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width 1s var(--ease-out)}
+  .gb-avatar{position:absolute;top:50%;left:calc(var(--p,0) * 100%);transform:translate(-50%,-58%);transition:left 1s cubic-bezier(.3,1.35,.5,1);filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+  .gb-avatar svg.i{font-size:46px;color:var(--accent);fill:color-mix(in srgb,var(--accent) 25%,transparent)}
+  .gb-avatar.bump{animation:gbBump .7s ease}
+  .gb-avatar.shake{animation:gbShake .5s ease}
+  .gamebar.done{border-color:var(--accent);color:var(--text)}
+  .gamebar.done .gb-end svg.i{animation:gbPulse 1s ease infinite}
+  @keyframes gbBump{30%{transform:translate(-50%,-95%) rotate(-6deg)}60%{transform:translate(-50%,-50%)}}
+  @keyframes gbShake{20%,60%{transform:translate(-62%,-58%) rotate(-8deg)}40%,80%{transform:translate(-38%,-58%) rotate(8deg)}}
+  @keyframes gbPulse{50%{transform:scale(1.25)}}
+  body.has-game .slide>.inner{padding-top:124px}
+  body.has-game #toast{top:auto;bottom:96px}
+
+  /* slide de resultado */
+  .t-finish>.inner{justify-content:center;align-items:center;text-align:center}
+  .finish-icon{font-size:150px;color:var(--accent);margin-bottom:12px;filter:drop-shadow(0 8px 18px color-mix(in srgb,var(--accent) 40%,transparent))}
+  .final-score{font-family:var(--font-display);font-weight:var(--display-weight);font-size:150px;line-height:1;margin-top:28px;color:var(--accent)}
+  .final-score .of{font-size:.36em;color:var(--muted);margin-left:.15em}
+  .t-finish .tier{font-size:44px;font-weight:700;color:var(--text)}
+
+  /* decoraciones temáticas (portada, secciones, resultado) */
+  .game-deco{position:absolute;left:0;right:0;pointer-events:none;z-index:1}
+  .deco-checkers{bottom:0;height:44px;background:conic-gradient(#111 25%,#fff 0 50%,#111 0 75%,#fff 0) 0 0/44px 44px;opacity:.9}
+  .deco-stars{inset:0;background-image:radial-gradient(2px 2px at 20% 30%,#fff8 50%,transparent 51%),radial-gradient(2px 2px at 70% 20%,#fff8 50%,transparent 51%),radial-gradient(1.5px 1.5px at 40% 70%,#fff6 50%,transparent 51%),radial-gradient(2px 2px at 85% 60%,#fff7 50%,transparent 51%);background-size:420px 300px}
+  .deco-dots{bottom:0;height:36px;background:radial-gradient(circle,var(--accent) 6px,transparent 7px) 0 0/36px 36px;opacity:.5}
+  .deco-peaks{bottom:0;height:160px;background:linear-gradient(135deg,transparent 50%,color-mix(in srgb,var(--accent) 22%,transparent) 50%) 0 100%/160px 160px repeat-x,linear-gradient(225deg,transparent 50%,color-mix(in srgb,var(--accent) 22%,transparent) 50%) 80px 100%/160px 160px repeat-x}
+}
+
 /* ---------------- Movimiento ---------------- */
 @layer motion {
   @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}

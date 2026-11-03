@@ -1,9 +1,15 @@
 {
   "meta": {
     "title": "Misión Copilot: prompts que funcionan",
-    "lang": "es", "kind": "gamificada", "tone": "ludico", "theme": "ludico",
-    "author": "Equipo de Desarrollo", "fragments": false, "quizPoints": 10,
-    "bigIdea": "Un buen prompt da contexto, intención y restricciones: con eso Copilot acierta a la primera."
+    "lang": "es",
+    "kind": "gamificada",
+    "tone": "ludico",
+    "theme": "ludico",
+    "author": "Equipo de Desarrollo",
+    "fragments": false,
+    "quizPoints": 10,
+    "bigIdea": "Un buen prompt da contexto, intención y restricciones: con eso Copilot acierta a la primera.",
+    "game": "espacial"
   },
   "slides": [
     {
@@ -18,9 +24,21 @@
       "type": "cards",
       "title": "Las 3 piezas de un buen prompt",
       "items": [
-        { "icon": "map", "title": "Contexto", "text": "Qué archivo, qué stack, qué existe." },
-        { "icon": "target", "title": "Intención", "text": "Qué quieres lograr y para quién." },
-        { "icon": "shield-check", "title": "Restricciones", "text": "Estilo, límites, pruebas esperadas." }
+        {
+          "icon": "map",
+          "title": "Contexto",
+          "text": "Qué archivo, qué stack, qué existe."
+        },
+        {
+          "icon": "target",
+          "title": "Intención",
+          "text": "Qué quieres lograr y para quién."
+        },
+        {
+          "icon": "shield-check",
+          "title": "Restricciones",
+          "text": "Estilo, límites, pruebas esperadas."
+        }
       ],
       "timing": 60
     },
@@ -28,10 +46,19 @@
       "type": "quiz",
       "title": "¿Cuál prompt dará mejor resultado?",
       "options": [
-        { "text": "\"Haz una API\"" },
-        { "text": "\"API REST en .NET 8 para clientes, con validación y pruebas xUnit\"", "correct": true },
-        { "text": "\"Mejora el código\"" },
-        { "text": "\"Arregla todo\"" }
+        {
+          "text": "\"Haz una API\""
+        },
+        {
+          "text": "\"API REST en .NET 8 para clientes, con validación y pruebas xUnit\"",
+          "correct": true
+        },
+        {
+          "text": "\"Mejora el código\""
+        },
+        {
+          "text": "\"Arregla todo\""
+        }
       ],
       "explanation": "La opción B da **contexto** (.NET 8), **intención** (API de clientes) y **restricciones** (validación, pruebas).",
       "sfx": "rise",
@@ -42,10 +69,26 @@
       "title": "Ciclo de un prompt efectivo",
       "fragments": true,
       "steps": [
-        { "icon": "pencil", "title": "Escribe", "text": "Contexto + intención + restricciones." },
-        { "icon": "eye", "title": "Revisa", "text": "Lee la propuesta antes de aceptar." },
-        { "icon": "flask-conical", "title": "Prueba", "text": "Ejecuta pruebas y valida." },
-        { "icon": "repeat", "title": "Itera", "text": "Ajusta el prompt con lo aprendido." }
+        {
+          "icon": "pencil",
+          "title": "Escribe",
+          "text": "Contexto + intención + restricciones."
+        },
+        {
+          "icon": "eye",
+          "title": "Revisa",
+          "text": "Lee la propuesta antes de aceptar."
+        },
+        {
+          "icon": "flask-conical",
+          "title": "Prueba",
+          "text": "Ejecuta pruebas y valida."
+        },
+        {
+          "icon": "repeat",
+          "title": "Itera",
+          "text": "Ajusta el prompt con lo aprendido."
+        }
       ],
       "timing": 60
     },
@@ -53,19 +96,40 @@
       "type": "quiz",
       "title": "¿Qué haces si la sugerencia no compila?",
       "options": [
-        { "text": "La acepto igual" },
-        { "text": "Doy el error como contexto y pido corrección", "correct": true },
-        { "text": "Desinstalo Copilot" }
+        {
+          "text": "La acepto igual"
+        },
+        {
+          "text": "Doy el error como contexto y pido corrección",
+          "correct": true
+        },
+        {
+          "text": "Desinstalo Copilot"
+        }
       ],
       "explanation": "El error es contexto valioso: pégalo y pide una corrección específica.",
       "timing": 45
     },
     {
+      "type": "finish",
+      "eyebrow": "Resultado de la misión",
+      "icon": "rocket",
+      "lead": "Tu puntaje se calcula con las respuestas del equipo.",
+      "notes": "Si no llegaron al máximo, R dos veces reinicia el juego.",
+      "timing": 30
+    },
+    {
       "type": "cta",
       "title": "¡Misión cumplida! Tu reto de esta semana",
       "actions": [
-        { "icon": "trophy", "text": "Reescribe 3 prompts con las 3 piezas" },
-        { "icon": "share-2", "text": "Comparte tu mejor prompt en el canal del equipo" }
+        {
+          "icon": "trophy",
+          "text": "Reescribe 3 prompts con las 3 piezas"
+        },
+        {
+          "icon": "share-2",
+          "text": "Comparte tu mejor prompt en el canal del equipo"
+        }
       ],
       "sfx": "success",
       "timing": 30

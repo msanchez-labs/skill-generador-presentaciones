@@ -54,7 +54,8 @@ Duración por defecto 15 min; idioma = el del usuario.
    - Una idea por slide; respeta el máximo de palabras del tono.
    - Varía los tipos de slide (no 3 iguales seguidos); 1 momento memorable; CTA antes del cierre.
    - Todo lo que el orador debe decir va en `notes`; `timing` en segundos.
-4. Valida la lógica horizontal: leyendo solo los títulos se entiende la historia.
+4. **Gamificación temática** (si `kind` es gamificada o el usuario pide un juego): el CONTENIDO es el tema pedido y la TEMÁTICA del juego es independiente. Usa `meta.game`: `carrera`, `espacial`, `tesoro`, `montana` u objeto personalizado (vocabulario, avatar Lucide, sonidos). Usa slides `quiz` como retos y opcionalmente `finish` para el resultado. Si el usuario nombra otra temática (p. ej. fútbol), crea el objeto `game` con su vocabulario e íconos. Ver `references/deck-schema.md`.
+5. Valida la lógica horizontal: leyendo solo los títulos se entiende la historia.
 
 ## 4. Estilo y visuales
 

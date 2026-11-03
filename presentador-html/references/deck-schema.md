@@ -22,6 +22,7 @@ Texto: admite markdown mínimo → `**negrita**`, `*itálica*`, `==resaltado==`,
 | `fileName` | str | slug | Base del nombre al guardar/exportar |
 | `output` | str | `deck.html` | Archivo de salida (relativo al deck.json) |
 | `quizPoints` | int | 10 | Puntos por respuesta correcta |
+| `game` | str \| obj | — | **Gamificación temática**: `"carrera"`, `"espacial"`, `"tesoro"`, `"montana"` (ver `assets/games/`) u objeto `{theme:"carrera", vocab:{…}, avatar:"car", sfx:{…}}` para personalizar. Agrega barra de progreso con avatar que avanza con cada acierto, vocabulario del tema en retos y mensajes, sonidos, decoración y confeti al llegar a la meta |
 | `autoplaySec` | int | 8 | Segundos por paso con la tecla A |
 | `inkColors` | [str] | rojo, amarillo, verde, azul, blanco | Colores del lápiz (teclas 1–5) |
 | `css` | str | — | CSS adicional (escape hatch) |
@@ -75,7 +76,8 @@ Colores de tema: `bg, surface, surface2, text, muted, line, accent, accent2, onA
 | `quote` | `text`, `author`, `image` (fondo) | Cita / testimonio |
 | `cycle` | `items:[{label, image \| icon}]`, `center:{title,text}`, `current`, `radius`, `nodeSize` + campos comunes a la izquierda | Ciclos (fases, flywheel) |
 | `status` | `period`, `health:{status:"g\|a\|r", label}`, `metrics:[{name, value, rag, trend:"up\|down\|flat"}]`, `done`, `next`, `risks`, `decision` | One-pager de estatus (RAG) |
-| `quiz` | `options:[{text, correct}]`, `explanation` | Pregunta; clic o teclas 1–4; suma puntos |
+| `quiz` | `options:[{text, correct}]`, `explanation`, `figure` | Pregunta; clic o teclas 1–4; suma puntos. Con `game`, el eyebrow se genera solo ("Curva 1 · 10 km", "Recta final…") |
+| `finish` | `icon`, `lead` (título por defecto = mensaje de meta del tema) | Resultado: puntaje final animado + nivel alcanzado (tiers del tema) + confeti si llegó al máximo |
 | `diagram` | `svg` (ruta a .svg o `<svg…>` inline) o `image` | Diagramas (reglas en ref. 11) |
 | `cta` | `actions:[{icon, text}]` | Llamada a la acción |
 | `closing` | `contact`, `bullets`, `background` | Cierre |

@@ -13,12 +13,13 @@
 {{EXTRA_CSS}}
 </style>
 </head>
-<body class="deck">
+<body class="{{BODY_CLASS}}">
 <div id="viewport">
   <main id="stage" aria-roledescription="presentación">
 {{SLIDES}}
     <canvas id="ink" width="3840" height="2160" aria-hidden="true"></canvas>
     <div id="comments" aria-label="Comentarios"></div>
+{{GAMEBAR}}
   </main>
 </div>
 

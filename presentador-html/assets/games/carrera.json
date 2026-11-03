@@ -1,0 +1,41 @@
+{
+  "label": "Carrera de autos",
+  "avatar": "car",
+  "start": "flag-triangle-right",
+  "end": "flag",
+  "vocab": {
+    "points": "km",
+    "challenge": "Curva",
+    "final": "Recta final",
+    "start": "Largada",
+    "goal": "Meta",
+    "correct": "¡Acelerón! +{p} km",
+    "wrong": "¡Trompo! Sin avance",
+    "finish": "¡Bandera a cuadros! Llegaste a la meta",
+    "reset": "De vuelta a boxes",
+    "tiers": [
+      "Sigue entrenando en boxes",
+      "Buen ritmo de carrera",
+      "¡Podio asegurado!",
+      "¡Campeón del circuito!"
+    ]
+  },
+  "sfx": {
+    "correct": "engine",
+    "wrong": "skid",
+    "finish": "fanfare"
+  },
+  "themeOverrides": {
+    "colors": {
+      "accent": "#d7191c",
+      "accent2": "#f2b705"
+    }
+  },
+  "confetti": [
+    "#d7191c",
+    "#f2b705",
+    "#ffffff",
+    "#111111"
+  ],
+  "deco": "checkers"
+}

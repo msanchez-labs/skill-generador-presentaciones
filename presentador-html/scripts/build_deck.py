@@ -40,7 +40,7 @@ TONE_MAX_WORDS = {"storytelling": 25, "directo": 35, "explicativo": 50, "minimal
                   "datos": 30, "consultor": 60, "inspiracional": 15, "ludico": 25, "tecnico": 60}
 TYPES = ["title", "section", "agenda", "statement", "big-number", "split", "image-full", "gallery", "cards",
          "process", "timeline", "comparison", "chart", "quote", "cycle", "status", "quiz", "diagram", "cta",
-         "closing", "html"]
+         "closing", "finish", "html"]
 
 WARN: list[str] = []
 
@@ -192,6 +192,8 @@ class Renderer:
         self.base = base
         self.i = 0  # contador de animación por slide
         self.frag = False
+        self.game = None      # tema de gamificación (assets/games/*.json)
+        self.quiz_ids: list[int] = []
 
     # helpers ---------------------------------------------------------------
     def a(self, extra: str = "") -> str:
@@ -430,6 +432,12 @@ class Renderer:
 
     def r_quiz(self, s):
         ops = s.get("options", [])
+        if self.game and not s.get("eyebrow"):
+            v = self.game["vocab"]
+            n = self.quiz_ids.index(id(s)) + 1 if id(s) in self.quiz_ids else 1
+            label = v.get("final") if n == len(self.quiz_ids) and len(self.quiz_ids) > 1 else f'{v.get("challenge", "Reto")} {n}'
+            pts = self.meta.get("quizPoints", 10)
+            s = dict(s, eyebrow=f'{label} · {pts} {v.get("points", "pts")}')
         letters = "ABCDEF"
         lis = "".join(f'<li{self.a()}><button class="quiz-opt" type="button" data-correct="{1 if o.get("correct") else 0}">'
                       f'<span class="letter">{letters[k]}</span><span data-edit>{md_inline(o.get("text"))}</span></button></li>' for k, o in enumerate(ops))
@@ -458,6 +466,16 @@ class Renderer:
         acts = "".join(f'<li{self.a()}><span class="ai">{self.icons.svg(x.get("icon", "arrow-right"))}</span><span data-edit>{md_inline(x.get("text"))}</span></li>'
                        for x in s.get("actions", []))
         return self.eyebrow(s) + self.title(s) + self.lead(s) + f'<ul class="actions">{acts}</ul>'
+
+    def r_finish(self, s):
+        v = (self.game or {}).get("vocab", {})
+        pts = v.get("points", "pts")
+        mx = (self.game or {}).get("max", 0)
+        s = dict(s, title=s.get("title") or v.get("finish") or "¡Resultado final!")
+        trophy = f'<div class="finish-icon rise" style="--i:1">{self.icons.svg(s.get("icon", "trophy"))}</div>'
+        score = (f'<div class="final-score rise" style="--i:3"><span class="num tabular" data-score>0</span>'
+                 f'<span class="of"> / {mx} {html.escape(pts)}</span></div><p class="subtitle tier rise" style="--i:4" data-tier></p>')
+        return trophy + self.eyebrow(s) + self.title(s) + score + self.lead(s) + self.bullets(s.get("bullets"))
 
     def r_html(self, s):
         return s.get("html", "")
@@ -514,6 +532,8 @@ class Renderer:
             classes.append("center")
         if s.get("class"):
             classes.append(str(s["class"]))
+        if self.game and t in ("title", "section", "finish", "closing"):
+            bg_html += f'<div class="game-deco deco-{html.escape(self.game.get("deco", "none"))}" aria-hidden="true"></div>'
         inner = getattr(self, "r_" + t.replace("-", "_"))(s)
         notes = s.get("notes")
         notes_html = ""
@@ -592,7 +612,31 @@ def chart_svg(ch: dict, lang: str) -> str:
 
 
 # --------------------------------------------------------------------------- tema y fuentes
-def load_theme(meta: dict, base: Path) -> tuple[str, dict]:
+def load_game(meta: dict, base: Path) -> dict | None:
+    g = meta.get("game")
+    if not g:
+        return None
+    if isinstance(g, str):
+        g = {"theme": g}
+    name = g.get("theme", "carrera")
+    f = next((c for c in [base / name, ASSETS / "games" / f"{name}.json"] if c.suffix == ".json" and c.exists()), None)
+    if not f:
+        avail = ", ".join(sorted(p.stem for p in (ASSETS / "games").glob("*.json")))
+        warn(f"Tema de juego '{name}' no encontrado (disponibles: {avail}); se usa 'carrera'")
+        f = ASSETS / "games" / "carrera.json"
+    game = json.loads(read_text(f))
+    game["name"] = f.stem
+    for k, v in g.items():
+        if k == "theme":
+            continue
+        if isinstance(v, dict):
+            game.setdefault(k, {}).update(v)
+        else:
+            game[k] = v
+    return game
+
+
+def load_theme(meta: dict, base: Path, pre: dict | None = None) -> tuple[str, dict]:
     th = meta.get("theme", "editorial-claro")
     if isinstance(th, dict):
         name, theme = "custom", th
@@ -604,8 +648,13 @@ def load_theme(meta: dict, base: Path) -> tuple[str, dict]:
             warn(f"Tema '{th}' no encontrado; se usa editorial-claro")
             f = ASSETS / "themes" / "editorial-claro.json"
         name, theme = f.stem, json.loads(read_text(f))
-    ov = meta.get("themeOverrides") or {}
     theme = json.loads(json.dumps(theme))
+    for k, v in (pre or {}).items():  # sugerencias del tema de juego (las del usuario mandan)
+        if isinstance(v, dict):
+            theme.setdefault(k, {}).update(v)
+        else:
+            theme[k] = v
+    ov = meta.get("themeOverrides") or {}
     for k, v in ov.items():
         if isinstance(v, dict):
             theme.setdefault(k, {}).update(v)
@@ -651,12 +700,27 @@ def build(deck_path: Path, out: Path | None, optimize: bool = True) -> Path:
     slides = deck.get("slides", [])
     if not slides:
         raise SystemExit("El deck no tiene slides.")
-    theme_name, theme = load_theme(meta, base)
+    game = load_game(meta, base)
+    theme_name, theme = load_theme(meta, base, (game or {}).get("themeOverrides"))
     r = Renderer(deck, base, optimize)
+    if game:
+        quizzes = [s for s in slides if s.get("type") == "quiz"]
+        game["max"] = int(meta.get("quizPoints", 10)) * len(quizzes)
+        r.game = game
+        r.quiz_ids = [id(s) for s in quizzes]
     slides_html = "\n".join(r.slide(s, k) for k, s in enumerate(slides))
     icons = r.icons
     tpl = read_text(ENGINE / "template.html")
     tpl = re.sub(r"\{\{ICON:([\w-]+)\}\}", lambda m: icons.svg(m.group(1)), tpl)
+    body_class = "deck"
+    gamebar = ""
+    if game:
+        body_class += f" has-game game-{game['name']}"
+        v = game["vocab"]
+        gamebar = (f'<div id="gamebar" class="gamebar" aria-label="Progreso del juego">'
+                   f'<div class="gb-start">{icons.svg(game.get("start", "flag"))}<span>{html.escape(v.get("start", "Inicio"))}</span></div>'
+                   f'<div class="gb-track"><div class="gb-fill"></div><div id="game-avatar" class="gb-avatar">{icons.svg(game.get("avatar", "circle"))}</div></div>'
+                   f'<div class="gb-end">{icons.svg(game.get("end", "flag"))}<span id="game-score"></span></div></div>')
     title = meta.get("title") or (slides[0].get("title") or "Presentación")
     title_plain = re.sub(r"[*=_`]", "", str(title))
     build_id = hashlib.sha1((json.dumps(deck, sort_keys=True, ensure_ascii=False) + VERSION).encode()).hexdigest()[:10]
@@ -666,6 +730,9 @@ def build(deck_path: Path, out: Path | None, optimize: bool = True) -> Path:
         "dimPrevious": bool(meta.get("dimPrevious", False)), "quizPoints": meta.get("quizPoints", 10),
         "autoplaySec": meta.get("autoplaySec", 8), "inkColors": meta.get("inkColors"),
         "uiIcons": {"soundOn": icons.svg("volume-2"), "soundOff": icons.svg("volume-x")},
+        "bodyClass": body_class,
+        "game": ({"name": game["name"], "label": game.get("label"), "vocab": game["vocab"], "sfx": game.get("sfx", {}),
+                  "max": game["max"], "confetti": game.get("confetti")} if game else None),
     }
     cfg = {k: v for k, v in cfg.items() if v is not None}
     js_json = lambda o: json.dumps(o, ensure_ascii=False).replace("</", "<\\/")
@@ -674,7 +741,7 @@ def build(deck_path: Path, out: Path | None, optimize: bool = True) -> Path:
         "{{LANG}}": html.escape(meta.get("lang", "es")), "{{THEME_NAME}}": theme_name, "{{THEME_MODE}}": theme.get("mode", "light"),
         "{{VERSION}}": VERSION, "{{TITLE}}": html.escape(title_plain), "{{FONTS_CSS}}": fonts_css(theme),
         "{{THEME_CSS}}": theme_css(theme), "{{ENGINE_CSS}}": read_text(ENGINE / "engine.css"), "{{IMAGES_CSS}}": "\n".join(r.images.css),
-        "{{EXTRA_CSS}}": extra_css, "{{SLIDES}}": slides_html, "{{CONFIG}}": js_json(cfg), "{{STATE}}": "{}",
+        "{{EXTRA_CSS}}": extra_css, "{{BODY_CLASS}}": body_class, "{{GAMEBAR}}": gamebar, "{{SLIDES}}": slides_html, "{{CONFIG}}": js_json(cfg), "{{STATE}}": "{}",
         "{{ENGINE_JS}}": read_text(ENGINE / "engine.js"),
     }
     out_html = tpl

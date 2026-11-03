@@ -1,0 +1,41 @@
+{
+  "label": "Búsqueda del tesoro",
+  "avatar": "compass",
+  "start": "map",
+  "end": "gem",
+  "vocab": {
+    "points": "monedas",
+    "challenge": "Pista",
+    "final": "El cofre",
+    "start": "Mapa",
+    "goal": "Tesoro",
+    "correct": "¡Encontraste {p} monedas!",
+    "wrong": "Camino equivocado",
+    "finish": "¡Tesoro encontrado!",
+    "reset": "Nuevo mapa",
+    "tiers": [
+      "Grumete",
+      "Explorador",
+      "Capitán",
+      "¡Leyenda pirata!"
+    ]
+  },
+  "sfx": {
+    "correct": "coin",
+    "wrong": "error",
+    "finish": "fanfare"
+  },
+  "themeOverrides": {
+    "colors": {
+      "accent": "#b7791f",
+      "accent2": "#2f855a"
+    }
+  },
+  "confetti": [
+    "#f6c343",
+    "#b7791f",
+    "#2f855a",
+    "#ffffff"
+  ],
+  "deco": "dots"
+}

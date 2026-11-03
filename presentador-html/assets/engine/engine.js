@@ -26,7 +26,7 @@
     let emb = {}, loc = null;
     try { emb = JSON.parse($('#deck-state').textContent || '{}') || {}; } catch (e) { emb = {}; }
     try { loc = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { loc = null; }
-    const s = Object.assign({ ink: {}, notes: {}, comments: {}, html: {}, prefs: {}, score: 0 }, emb);
+    const s = Object.assign({ ink: {}, notes: {}, comments: {}, html: {}, prefs: {}, score: 0, answered: {} }, emb);
     if (loc && (loc.ts || 0) >= (emb.ts || 0)) Object.assign(s, loc);
     return s;
   })();
@@ -166,6 +166,7 @@
   function onEnter(opts) {
     const sl = slides[cur];
     if (!opts.all) countups(sl); else countups(sl, true);
+    if (sl.classList.contains('t-finish')) fillFinish(sl, !!opts.all || !!opts.instant);
     if (sl.dataset.sfx && !opts.silent) sfx(sl.dataset.sfx);
     renderInk(); renderPins(); syncNotesPanel(); updatePresenter();
     const sr = $('#sr'); if (sr) sr.textContent = 'Slide ' + (cur + 1) + ' de ' + N + ': ' + titleOf(cur);
@@ -509,7 +510,7 @@
     slides.forEach(sl => { if (sl._dirty) { saveSlideHtml(sl); sl._dirty = false; } });
     S.ts = Date.now();
     const doc = document.documentElement.cloneNode(true);
-    const body = doc.querySelector('body'); body.className = 'deck'; body.removeAttribute('style');
+    const body = doc.querySelector('body'); body.className = CFG.bodyClass || 'deck'; body.removeAttribute('style');
     $$('[contenteditable]', doc).forEach(e => e.removeAttribute('contenteditable'));
     $$('#stage > section.slide', doc).forEach(e => e.classList.remove('active', 'no-vt'));
     $$('.frag', doc).forEach(e => e.classList.remove('visible', 'dim'));
@@ -551,7 +552,7 @@
     ['Puntero láser', () => setTool('laser')], ['Foco', () => setTool('spot')], ['Lupa', () => setTool('zoom')], ['Lápiz', () => setTool('pen')], ['Resaltador', () => setTool('hl')],
     ['Pizarra en blanco', () => toggleBoard()], ['Pantalla negra', () => toggleBlack()], ['Editar textos', () => setEditing()], ['Notas y comentarios', () => togglePanel('notes')],
     ['Nuevo comentario', () => setTool('comment')], ['Exportar minuta (.md)', () => download(fileBase() + '-minuta.md', minuteMd(), 'text/markdown;charset=utf-8')],
-    ['Guardar como HTML', () => saveHtml()], ['Imprimir / PDF', () => window.print()], ['Sonido on/off', () => toggleSound()], ['Ayuda: atajos', () => openHelp()],
+    ['Guardar como HTML', () => saveHtml()], ['Reiniciar juego / puntaje', () => { if (resetConfirm()) resetGame(); }], ['Imprimir / PDF', () => window.print()], ['Sonido on/off', () => toggleSound()], ['Ayuda: atajos', () => openHelp()],
     ['Restablecer anotaciones locales', () => { if (resetConfirm()) { S.ink = {}; S.notes = {}; S.comments = {}; S.html = {}; persist(); try { localStorage.removeItem(KEY); } catch (e) { } location.reload(); } }]
   ];
   let resetArmed = 0;
@@ -584,7 +585,7 @@
     ['L', 'Puntero láser'], ['H', 'Foco'], ['Z', 'Lupa (clic)'], ['D', 'Lápiz'], ['Shift+D', 'Resaltador'], ['1–5', 'Color (dibujando)'],
     ['X', 'Borrador'], ['C', 'Limpiar trazos de la slide'], ['Ctrl+Z / Ctrl+Y', 'Deshacer / rehacer trazo'], ['W', 'Pizarra en blanco'], ['B  .', 'Pantalla negra'],
     ['Seleccionar texto', 'Botón Resaltar (Shift+M)'], ['Shift+C', 'Comentario anclado'], ['T', 'Notas y comentarios'], ['E', 'Editar textos'],
-    ['Ctrl+S', 'Guardar como HTML'], ['Ctrl+P', 'Imprimir / PDF'], ['U', 'Sonido'], ['A', 'Avance automático'], ['Esc', 'Salir de herramienta / panel'], ['?', 'Esta ayuda']
+    ['Ctrl+S', 'Guardar como HTML'], ['Ctrl+P', 'Imprimir / PDF'], ['U', 'Sonido'], ['R R', 'Reiniciar juego / puntaje'], ['A', 'Avance automático'], ['Esc', 'Salir de herramienta / panel'], ['?', 'Esta ayuda']
   ];
   function openHelp() { $('#help-list').innerHTML = KEYS.map(k => '<div class="k"><span>' + esc(k[1]) + '</span><kbd>' + esc(k[0]) + '</kbd></div>').join(''); $('#help').classList.add('on'); }
   function closeOverlays() { let any = false; $$('.overlay.on').forEach(o => { if (o.contains(document.activeElement)) document.activeElement.blur(); o.classList.remove('on'); any = true; }); return any; }
@@ -622,7 +623,12 @@
     tick: () => tone(1250, 0.05, 'sine', 0.18), pop: () => tone(620, 0.1, 'triangle', 0.35, 180), ding: () => { tone(1318, 0.7, 'sine', 0.3); tone(1976, 0.5, 'sine', 0.12); },
     whoosh: () => whoosh(), rise: () => tone(280, 0.4, 'sawtooth', 0.07, 1200),
     success: () => { tone(784, 0.18, 'triangle', 0.3); tone(988, 0.18, 'triangle', 0.3, null, 0.12); tone(1319, 0.4, 'triangle', 0.3, null, 0.24); },
-    error: () => { tone(220, 0.25, 'square', 0.12); tone(185, 0.3, 'square', 0.1, null, 0.12); }
+    error: () => { tone(220, 0.25, 'square', 0.12); tone(185, 0.3, 'square', 0.1, null, 0.12); },
+    engine: () => { tone(70, 0.55, 'sawtooth', 0.22, 240); tone(140, 0.5, 'square', 0.06, 420, 0.05); },
+    skid: () => { const a = audio(); if (!a) return; const d = 0.5, b = a.createBuffer(1, Math.floor(a.sampleRate * d), a.sampleRate), x = b.getChannelData(0); for (let k = 0; k < x.length; k++) x[k] = (Math.random() * 2 - 1) * (1 - k / x.length); const s2 = a.createBufferSource(), f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2400; f.Q.value = 6; s2.buffer = b; s2.connect(f).connect(master); s2.start(); },
+    rocket: () => { whoosh(0.8); tone(110, 0.8, 'sawtooth', 0.08, 55); },
+    coin: () => { tone(988, 0.08, 'square', 0.15); tone(1319, 0.35, 'square', 0.15, null, 0.08); },
+    fanfare: () => { [523, 659, 784, 1047].forEach((f, k) => tone(f, k === 3 ? 0.7 : 0.16, 'triangle', 0.3, null, k * 0.13)); }
   };
   function sfx(name) { if (!S.prefs.sound || PRESENTER) return; try { (SFX[name] || SFX.tick)(); } catch (e) { } }
   function toggleSound() {
@@ -631,19 +637,72 @@
     toast(S.prefs.sound ? 'Sonido activado' : 'Sonido desactivado');
   }
 
-  /* ---------------- Quiz ---------------- */
+  /* ---------------- Quiz y gamificación temática ---------------- */
+  const G = CFG.game || null;
+  const PTS = CFG.quizPoints || 10;
+  const vocab = (k, d) => (G && G.vocab && G.vocab[k]) || d;
+  function recomputeScore() { S.score = Object.values(S.answered || {}).reduce((a, r) => a + (r && r.ok ? PTS : 0), 0); }
+  function paintQuiz(sl, pick, ok) {
+    const ops = $$('.quiz-opt', sl); sl.dataset.answered = '1';
+    if (ops[pick]) ops[pick].classList.add(ok ? 'correct' : 'wrong');
+    if (!ok) ops.forEach(b => { if (b.dataset.correct === '1') b.classList.add('correct'); });
+    const fb = $('.quiz-feedback', sl); if (fb) fb.classList.add('show');
+  }
   function answerQuiz(btn) {
     const sl = btn.closest('section.slide'); if (!sl || sl.dataset.answered) return;
-    sl.dataset.answered = '1';
-    const ok = btn.dataset.correct === '1';
-    btn.classList.add(ok ? 'correct' : 'wrong');
-    if (!ok) $$('.quiz-opt[data-correct="1"]', sl).forEach(b => b.classList.add('correct'));
-    const fb = $('.quiz-feedback', sl); if (fb) fb.classList.add('show');
-    if (ok) { S.score = (S.score || 0) + (CFG.quizPoints || 10); persist(); }
+    const id = sl.dataset.id, ops = $$('.quiz-opt', sl), pick = ops.indexOf(btn), ok = btn.dataset.correct === '1';
+    S.answered = S.answered || {}; S.answered[id] = { pick: pick, ok: ok }; recomputeScore(); persist();
+    paintQuiz(sl, pick, ok);
+    if (G) { gameStep(ok); return; }
     sfx(ok ? 'success' : 'error');
-    toast(ok ? '¡Correcto! +' + (CFG.quizPoints || 10) + ' pts · Total ' + S.score : 'Casi… revisa la explicación');
+    toast(ok ? '¡Correcto! +' + PTS + ' pts · Total ' + S.score : 'Casi… revisa la explicación');
   }
   stage.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.quiz-opt'); if (b && !tool && !editing) answerQuiz(b); });
+  function renderGame() {
+    const bar = $('#gamebar'); if (!G || !bar) return;
+    const max = G.max || 1, p = Math.max(0, Math.min(1, (S.score || 0) / max));
+    bar.style.setProperty('--p', p); bar.classList.toggle('done', p >= 1);
+    const lbl = $('#game-score'); if (lbl) lbl.textContent = (S.score || 0) + ' / ' + (G.max || 0) + ' ' + vocab('points', 'pts');
+  }
+  function gameStep(ok) {
+    renderGame();
+    const av = $('#game-avatar'); if (av) { av.classList.remove('bump', 'shake'); void av.offsetWidth; av.classList.add(ok ? 'bump' : 'shake'); }
+    sfx(ok ? ((G.sfx && G.sfx.correct) || 'success') : ((G.sfx && G.sfx.wrong) || 'error'));
+    toast(ok ? vocab('correct', '¡Correcto! +{p}').replace('{p}', PTS) : vocab('wrong', 'Sin avance'));
+    if (ok && G.max && S.score >= G.max) setTimeout(() => { sfx((G.sfx && G.sfx.finish) || 'success'); confetti(); toast(vocab('finish', '¡Meta!')); }, 1000);
+  }
+  function fillFinish(sl, instant) {
+    $$('[data-score]', sl).forEach(el => { el.dataset.countup = S.score || 0; });
+    countups(sl, instant);
+    const tiers = vocab('tiers', null), t = $('[data-tier]', sl);
+    if (t && tiers && tiers.length) { const p = G && G.max ? (S.score || 0) / G.max : 0; t.textContent = tiers[Math.min(tiers.length - 1, Math.floor(p * tiers.length))]; }
+    if (!instant && G && G.max && S.score >= G.max) setTimeout(confetti, 500);
+  }
+  function resetGame() {
+    S.score = 0; S.answered = {}; persist();
+    slides.forEach(sl => { delete sl.dataset.answered; });
+    $$('.quiz-opt').forEach(b => b.classList.remove('correct', 'wrong'));
+    $$('.quiz-feedback').forEach(f => f.classList.remove('show'));
+    renderGame(); toast(vocab('reset', 'Puntaje reiniciado'));
+  }
+  // restaurar respuestas guardadas
+  slides.forEach(sl => { const r = (S.answered || {})[sl.dataset.id]; if (r) paintQuiz(sl, r.pick, r.ok); });
+  recomputeScore();
+  /* Confeti (canvas temporal, sin librerías) */
+  function confetti() {
+    if (noAnim()) return;
+    const c = document.createElement('canvas'), x = c.getContext('2d'), d = Math.min(2, devicePixelRatio || 1);
+    c.style.cssText = 'position:fixed;inset:0;z-index:985;pointer-events:none'; c.width = innerWidth * d; c.height = innerHeight * d; x.scale(d, d);
+    document.body.appendChild(c);
+    const cols = (G && G.confetti) || ['#ff3b30', '#ffcc00', '#34c759', '#0a84ff', '#ffffff'];
+    const P = Array.from({ length: 170 }, () => ({ x: innerWidth / 2 + (Math.random() - 0.5) * innerWidth * 0.4, y: innerHeight * 0.35, vx: (Math.random() - 0.5) * 16, vy: -Math.random() * 16 - 4, r: Math.random() * 6 + 4, a: Math.random() * 6, va: (Math.random() - 0.5) * 0.4, c: cols[(Math.random() * cols.length) | 0] }));
+    const t0 = performance.now();
+    (function f(t) {
+      const el = t - t0; x.clearRect(0, 0, innerWidth, innerHeight);
+      P.forEach(p => { p.vy += 0.38; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.va; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.globalAlpha = Math.max(0, 1 - el / 2800); x.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); x.restore(); });
+      if (el < 2800) requestAnimationFrame(f); else c.remove();
+    })(t0);
+  }
 
   /* ---------------- Vista del presentador ---------------- */
   let pw = null; const t0 = Date.now(); let tStart = Date.now();
@@ -761,6 +820,7 @@
       case 't': case 'T': e.preventDefault(); togglePanel('notes'); break;
       case 'u': case 'U': toggleSound(); break;
       case 'a': case 'A': toggleAuto(); break;
+      case 'r': case 'R': if (resetConfirm()) resetGame(); break;
       case '?': openHelp(); break;
       case 'Escape':
         if (pop) { closePop(); break; }
@@ -781,11 +841,12 @@
   if (S.prefs.sound && CFG.uiIcons) { const b = $('#hud [data-act="sound"]'); if (b) b.innerHTML = CFG.uiIcons.soundOn; }
   if (PRESENTER) { setTimeout(() => { send({ type: 'hello' }); fit(); updatePresenter(); tickClock(); }, 120); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  renderGame();
 
   /* API pública (QA, automatización, consola) */
   window.Deck = {
     get count() { return N; }, get index() { return cur; }, get step() { return step; },
     goto: (i, o) => goto(i, o && o.all ? 'last' : 0, Object.assign({ instant: true, silent: true }, o || {})),
-    next: next, prev: prev, setTool: setTool, state: S, minute: minuteMd, version: CFG.version || ''
+    next: next, prev: prev, setTool: setTool, state: S, minute: minuteMd, resetGame: resetGame, version: CFG.version || ''
   };
 })();

@@ -1,0 +1,41 @@
+{
+  "label": "Misión espacial",
+  "avatar": "rocket",
+  "start": "earth",
+  "end": "orbit",
+  "vocab": {
+    "points": "años luz",
+    "challenge": "Misión",
+    "final": "Aterrizaje",
+    "start": "Despegue",
+    "goal": "Destino",
+    "correct": "¡Propulsores al máximo! +{p}",
+    "wrong": "Turbulencia: sin avance",
+    "finish": "¡Aterrizaje exitoso!",
+    "reset": "Cuenta regresiva reiniciada",
+    "tiers": [
+      "Sigue en simulador",
+      "Cadete espacial",
+      "Piloto estelar",
+      "¡Comandante de la misión!"
+    ]
+  },
+  "sfx": {
+    "correct": "rocket",
+    "wrong": "error",
+    "finish": "fanfare"
+  },
+  "themeOverrides": {
+    "colors": {
+      "accent": "#6c5ce7",
+      "accent2": "#00b8d9"
+    }
+  },
+  "confetti": [
+    "#6c5ce7",
+    "#00b8d9",
+    "#ffd166",
+    "#ffffff"
+  ],
+  "deco": "stars"
+}

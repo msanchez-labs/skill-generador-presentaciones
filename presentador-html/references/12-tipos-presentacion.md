@@ -111,6 +111,8 @@ Gamificación = **mecánicas de juego al servicio de un objetivo**, no decoraci�
 | **Celebración** | Confeti + sonido (`07-sonido.md`) | Cierre de hito |
 | **Participación del público** (con backend opcional) | Votación desde celular vía QR, leaderboard en vivo (tipo Kahoot) | Escala a grupos grandes |
 
+**Temática del juego (implementado):** el contenido y la temática son independientes. `meta.game` = `carrera` · `espacial` · `tesoro` · `montana` (o personalizada) cambia vocabulario (km, años luz, monedas, metros), avatar de la barra de progreso, sonidos, decoración y niveles finales. Ej.: *fases lunares* gamificadas como *carrera de autos*.
+
 **Reglas:** feedback específico (nunca punitivo) · no depender solo de puntos · progreso visible y honesto · ramificación limitada · accesible (teclado, contraste, texto + color) · medir aciertos y finalización.
 **Errores:** brillo sin propósito, texto denso, demasiadas ramas, mecánicas desconectadas del objetivo.
 **Estética:** más color (2 acentos permitidos), ilustraciones/íconos rellenos, tipografía redondeada (Sora, Outfit), animaciones con rebote leve, sonidos de recompensa.
