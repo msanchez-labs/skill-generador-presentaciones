@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Estatus Plataforma de Integraciones",
+    "lang": "es", "kind": "estatus", "tone": "directo", "theme": "corporativo",
+    "author": "Arquitectura de Integraciones", "date": "Semana 45 · 2026",
+    "bigIdea": "El proyecto avanza en plan, pero el atraso del proveedor de identidad pone en riesgo el hito de enero: necesitamos decidir hoy el plan B.",
+    "_nota": "Ejemplo few-shot con datos FICTICIOS para mostrar la estructura de un deck de estatus."
+  },
+  "slides": [
+    {
+      "type": "title",
+      "eyebrow": "Comité de seguimiento",
+      "title": "En plan, con un riesgo que requiere decisión hoy",
+      "subtitle": "Plataforma de Integraciones · corte al 6 de noviembre",
+      "notes": "Abrir con la conclusión (BLUF). Avisar: 5 minutos de resumen y luego discusión.",
+      "timing": 30
+    },
+    {
+      "type": "status",
+      "title": "Resumen del periodo",
+      "period": "Semana 45 · corte de datos: 06-11-2026",
+      "health": { "status": "a", "label": "En riesgo" },
+      "metrics": [
+        { "name": "Avance vs plan", "value": "62% / 65%", "rag": "g", "trend": "flat" },
+        { "name": "Presupuesto ejecutado", "value": "48%", "rag": "g", "trend": "up" },
+        { "name": "Hito enero (SSO)", "value": "−3 semanas", "rag": "r", "trend": "down" },
+        { "name": "APIs migradas", "value": "34 / 60", "rag": "g", "trend": "up" },
+        { "name": "Incidentes P1", "value": "0", "rag": "g", "trend": "flat" }
+      ],
+      "done": ["34 APIs migradas a APIM con monitoreo", "Pipeline IaC aprobado por Seguridad"],
+      "next": ["Migrar lote 4 (12 APIs) · 20-11", "Pruebas de carga · 27-11"],
+      "risks": ["Proveedor de identidad atrasado 3 semanas (impacto alto)", "Dependencia de ventanas de cambio en fin de año"],
+      "decision": "Aprobar plan B: SSO temporal con el IdP actual para no mover el hito de enero.",
+      "notes": "El rojo está en el hito, no en todo el proyecto. Mostrar tendencia.",
+      "timing": 120
+    },
+    {
+      "type": "comparison",
+      "title": "El plan B protege el hito con un costo acotado",
+      "columns": [
+        { "title": "Esperar al proveedor", "subtitle": "Mantener plan original", "bullets": ["Hito enero se mueve a febrero", "Sin costo adicional", "Riesgo de nuevo atraso"] },
+        { "title": "Plan B: SSO temporal", "subtitle": "IdP actual por 2 meses", "recommended": true, "bullets": ["Hito enero se mantiene", "2 semanas de esfuerzo extra", "Se retira al llegar el IdP nuevo"] }
+      ],
+      "timing": 90
+    },
+    {
+      "type": "timeline",
+      "title": "Hitos hasta el cierre",
+      "items": [
+        { "date": "Nov", "title": "Lote 4", "text": "12 APIs", "current": true },
+        { "date": "Dic", "title": "Pruebas de carga", "text": "Escenario pico" },
+        { "date": "Ene", "title": "SSO + go-live", "text": "Hito comprometido" },
+        { "date": "Mar", "title": "Cierre", "text": "60 APIs migradas" }
+      ],
+      "timing": 45
+    },
+    {
+      "type": "cta",
+      "title": "Decisión requerida hoy",
+      "actions": [
+        { "icon": "check", "text": "Aprobar plan B de SSO temporal" },
+        { "icon": "user-check", "text": "Responsable: Líder de Identidad · fecha: 13-11" }
+      ],
+      "timing": 30
+    }
+  ]
+}

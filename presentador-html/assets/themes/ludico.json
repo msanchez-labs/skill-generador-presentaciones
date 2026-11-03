@@ -1,0 +1,26 @@
+{
+  "label": "Lúdico",
+  "mode": "light",
+  "fonts": {
+    "display": "sora",
+    "body": "sora",
+    "mono": "jetbrains-mono"
+  },
+  "colors": {
+    "bg": "#fff8ec",
+    "surface": "#ffecc9",
+    "surface2": "#ffffff",
+    "text": "#2a1e3b",
+    "muted": "#5e4f70",
+    "line": "#f1d9ae",
+    "accent": "#d93a48",
+    "accent2": "#5b4bd6",
+    "onAccent": "#ffffff",
+    "good": "#16794c",
+    "warn": "#9a5b00",
+    "bad": "#c0262d"
+  },
+  "radius": "22px",
+  "displayWeight": 750,
+  "displayTracking": "-0.02em"
+}

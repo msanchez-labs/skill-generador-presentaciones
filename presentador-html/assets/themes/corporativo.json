@@ -1,0 +1,26 @@
+{
+  "label": "Corporativo",
+  "mode": "light",
+  "fonts": {
+    "display": "plus-jakarta-sans",
+    "body": "plus-jakarta-sans",
+    "mono": "jetbrains-mono"
+  },
+  "colors": {
+    "bg": "#ffffff",
+    "surface": "#f1f4f9",
+    "surface2": "#ffffff",
+    "text": "#0f1b2d",
+    "muted": "#4f5d75",
+    "line": "#dbe2ec",
+    "accent": "#0b5fff",
+    "accent2": "#00877f",
+    "onAccent": "#ffffff",
+    "good": "#13795b",
+    "warn": "#9a5b00",
+    "bad": "#c0262d"
+  },
+  "radius": "12px",
+  "displayWeight": 750,
+  "displayTracking": "-0.025em"
+}

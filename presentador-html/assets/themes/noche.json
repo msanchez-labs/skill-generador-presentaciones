@@ -1,0 +1,26 @@
+{
+  "label": "Noche (fotográfico)",
+  "mode": "dark",
+  "fonts": {
+    "display": "instrument-serif",
+    "body": "inter",
+    "mono": "jetbrains-mono"
+  },
+  "colors": {
+    "bg": "#06080e",
+    "surface": "#10141f",
+    "surface2": "#171c2a",
+    "text": "#f3f1ea",
+    "muted": "#b3b0a6",
+    "line": "#262c3d",
+    "accent": "#f2c46d",
+    "accent2": "#8fb4ff",
+    "onAccent": "#06080e",
+    "good": "#5fd39a",
+    "warn": "#f2c46d",
+    "bad": "#ff7b72"
+  },
+  "radius": "14px",
+  "displayWeight": 400,
+  "displayTracking": "-0.015em"
+}

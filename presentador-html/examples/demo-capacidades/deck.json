@@ -1,0 +1,141 @@
+{
+  "meta": {
+    "title": "Demo de capacidades",
+    "lang": "es",
+    "kind": "capacitacion",
+    "tone": "explicativo",
+    "theme": "tech-oscuro",
+    "author": "Presentador HTML",
+    "date": "2026",
+    "bigIdea": "Una presentación puede ser una herramienta viva: navegar, rayar, comentar y editar sin salir de ella.",
+    "aurora": true
+  },
+  "slides": [
+    {
+      "type": "title",
+      "eyebrow": "Demo · Presentador HTML",
+      "title": "Presentaciones que se **usan**, no solo se miran",
+      "subtitle": "Un solo archivo HTML, sin internet, con herramientas de presentador integradas.",
+      "background": { "image": { "src": "img/fondo-azul.svg", "alt": "" }, "overlay": "bottom", "grain": true },
+      "notes": "Bienvenida. Presiona ? para ver todos los atajos. F para pantalla completa.",
+      "timing": 40
+    },
+    {
+      "type": "agenda",
+      "title": "Qué vas a ver",
+      "items": ["Navegación y pantalla completa", "Láser, foco y lupa", "Trazos, resaltado y comentarios", "Notas, edición en vivo y vista del presentador"],
+      "current": 0,
+      "timing": 30
+    },
+    {
+      "type": "section",
+      "number": "01",
+      "title": "Navegar sin fricción",
+      "subtitle": "Teclado, clicker, swipe y búsqueda."
+    },
+    {
+      "type": "cards",
+      "title": "Todo se controla desde el teclado",
+      "items": [
+        { "icon": "arrow-right", "title": "Avanzar y retroceder", "text": "Flechas, espacio o clicker. Los fragmentos aparecen antes de cambiar de slide.", "featured": true },
+        { "icon": "maximize", "title": "Pantalla completa", "text": "Tecla F. Escala 16:9 sin deformar." },
+        { "icon": "layout-grid", "title": "Vista general", "text": "Tecla O para saltar a cualquier slide." },
+        { "icon": "search", "title": "Buscar", "text": "G o Ctrl+K: slides y comandos." },
+        { "icon": "presentation", "title": "Presentador", "text": "Tecla S: notas, siguiente slide y cronómetro." }
+      ],
+      "timing": 60
+    },
+    {
+      "type": "process",
+      "title": "Herramientas para dirigir la atención",
+      "fragments": true,
+      "steps": [
+        { "icon": "wand-sparkles", "title": "Láser", "text": "Tecla L: punto rojo con estela." },
+        { "icon": "flashlight", "title": "Foco", "text": "Tecla H: oscurece todo menos el círculo." },
+        { "icon": "zoom-in", "title": "Lupa", "text": "Tecla Z y clic para acercar." },
+        { "icon": "pen-line", "title": "Trazos", "text": "D lápiz, Shift+D resaltador, X borrador." }
+      ],
+      "notes": "Cada paso aparece con →. Prueba dibujar sobre esta slide con D.",
+      "timing": 60
+    },
+    {
+      "type": "split",
+      "image": { "src": "img/fondo-calido.svg", "alt": "Fondo abstracto cálido" },
+      "eyebrow": "Colaboración",
+      "title": "Comenta y toma notas en plena sesión",
+      "facts": [
+        { "icon": "message-square-plus", "title": "Comentarios anclados", "text": "Shift+C y clic en cualquier punto de la slide." },
+        { "icon": "notebook-pen", "title": "Notas de sesión", "text": "Tecla T. Se exportan como minuta Markdown." },
+        { "icon": "highlighter", "title": "Resaltar texto", "text": "Selecciona un texto y pulsa ==Resaltar==." }
+      ],
+      "timing": 60
+    },
+    {
+      "type": "big-number",
+      "title": "Ligero y portable",
+      "stats": [
+        { "value": 0, "label": "dependencias", "note": "Solo un navegador moderno" },
+        { "value": 1, "label": "archivo", "note": "HTML con todo incrustado" },
+        { "value": 100, "unit": "%", "label": "offline", "note": "Fuentes, íconos e imágenes dentro" }
+      ],
+      "timing": 40
+    },
+    {
+      "type": "chart",
+      "title": "Los trazos vectoriales pesan casi nada",
+      "chart": { "kind": "bar", "labels": ["1 trazo", "10 trazos", "50 trazos", "200 trazos"], "values": [0.4, 3.8, 19, 76], "unit": " KB", "decimals": 1, "highlight": 3 },
+      "insight": "Se guardan como puntos, no como imagen: se redibujan nítidos a cualquier tamaño.",
+      "source": "Estimación ilustrativa de esta demo.",
+      "timing": 45
+    },
+    {
+      "type": "comparison",
+      "title": "Archivo estático vs. presentación viva",
+      "columns": [
+        { "title": "Deck tradicional", "bullets": ["Solo se proyecta", "Anotaciones fuera del archivo", "Notas en otro documento"] },
+        { "title": "Presentador HTML", "recommended": true, "badge": "Este", "bullets": ["Rayar, comentar y editar en vivo", "Guardar como HTML con todo incluido", "Minuta exportable al terminar"] }
+      ],
+      "timing": 45
+    },
+    {
+      "type": "quiz",
+      "title": "¿Qué tecla abre la vista del presentador?",
+      "options": [ { "text": "P" }, { "text": "S", "correct": true }, { "text": "V" }, { "text": "F" } ],
+      "explanation": "**S** abre una ventana con notas, siguiente slide y cronómetro, sincronizada con la audiencia.",
+      "timing": 40
+    },
+    {
+      "type": "timeline",
+      "title": "Del borrador a la sala",
+      "items": [
+        { "date": "Paso 1", "title": "Fuente", "text": "Texto, título, documento o link." },
+        { "date": "Paso 2", "title": "Guion", "text": "Idea central y estructura." },
+        { "date": "Paso 3", "title": "Diseño", "text": "Tema, imágenes e íconos.", "current": true },
+        { "date": "Paso 4", "title": "QA", "text": "Revisión automática y visual." }
+      ],
+      "timing": 40
+    },
+    {
+      "type": "quote",
+      "text": "La mejor diapositiva es la que hace que la audiencia mire al presentador.",
+      "author": "Principio de diseño de esta demo",
+      "timing": 20
+    },
+    {
+      "type": "cta",
+      "title": "Pruébalo ahora",
+      "actions": [
+        { "icon": "keyboard", "text": "Pulsa **?** para ver todos los atajos" },
+        { "icon": "pen-line", "text": "Dibuja con **D** y guarda con **Ctrl+S**" },
+        { "icon": "presentation", "text": "Abre la vista del presentador con **S**" }
+      ],
+      "timing": 30
+    },
+    {
+      "type": "closing",
+      "title": "Gracias por probar",
+      "subtitle": "Generado con la skill presentador-html.",
+      "background": { "image": { "src": "img/fondo-verde.svg" }, "overlay": "bottom" }
+    }
+  ]
+}

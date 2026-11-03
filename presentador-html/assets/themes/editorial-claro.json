@@ -1,0 +1,26 @@
+{
+  "label": "Editorial claro",
+  "mode": "light",
+  "fonts": {
+    "display": "instrument-serif",
+    "body": "inter",
+    "mono": "jetbrains-mono"
+  },
+  "colors": {
+    "bg": "#f6f4ef",
+    "surface": "#ebe7de",
+    "surface2": "#ffffff",
+    "text": "#1c1a17",
+    "muted": "#5c574f",
+    "line": "#d6d0c4",
+    "accent": "#b4441c",
+    "accent2": "#1f4fb4",
+    "onAccent": "#ffffff",
+    "good": "#1f7a4d",
+    "warn": "#a35f00",
+    "bad": "#b42318"
+  },
+  "radius": "14px",
+  "displayWeight": 400,
+  "displayTracking": "-0.02em"
+}

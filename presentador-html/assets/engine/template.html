@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="{{LANG}}" data-theme="{{THEME_NAME}}" data-mode="{{THEME_MODE}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="presentador-html {{VERSION}}">
+<title>{{TITLE}}</title>
+<style>
+{{FONTS_CSS}}
+{{THEME_CSS}}
+{{ENGINE_CSS}}
+{{IMAGES_CSS}}
+{{EXTRA_CSS}}
+</style>
+</head>
+<body class="deck">
+<div id="viewport">
+  <main id="stage" aria-roledescription="presentación">
+{{SLIDES}}
+    <canvas id="ink" width="3840" height="2160" aria-hidden="true"></canvas>
+    <div id="comments" aria-label="Comentarios"></div>
+  </main>
+</div>
+
+<div id="progress" aria-hidden="true"></div>
+<canvas id="laser" aria-hidden="true"></canvas>
+<div id="spot" aria-hidden="true"></div>
+<div id="cover" aria-hidden="true"></div>
+<div id="badge-mode" aria-hidden="true"></div>
+<button id="markbtn" type="button">{{ICON:highlighter}} Resaltar</button>
+<div id="toast" role="status"></div>
+<div id="sr" class="sr-only" aria-live="polite"></div>
+
+<nav id="hud" aria-label="Controles de la presentación">
+  <button data-act="prev" title="Anterior (←)">{{ICON:chevron-left}}</button>
+  <span class="count" id="count">1 / 1</span>
+  <button data-act="next" title="Siguiente (→)">{{ICON:chevron-right}}</button>
+  <span class="sep"></span>
+  <button data-tool="laser" title="Puntero láser (L)">{{ICON:wand-sparkles}}</button>
+  <button data-tool="spot" title="Foco (H)">{{ICON:flashlight}}</button>
+  <button data-tool="zoom" title="Lupa (Z)">{{ICON:zoom-in}}</button>
+  <button data-tool="pen" title="Lápiz (D)">{{ICON:pen-line}}</button>
+  <button data-tool="hl" title="Resaltador (Shift+D)">{{ICON:highlighter}}</button>
+  <button data-tool="arrow" class="draw-only" title="Flecha">{{ICON:move-up-right}}</button>
+  <button data-tool="rect" class="draw-only" title="Rectángulo">{{ICON:square}}</button>
+  <button data-tool="eraser" class="draw-only" title="Borrador (X)">{{ICON:eraser}}</button>
+  <button data-act="undo" class="draw-only" title="Deshacer (Ctrl+Z)">{{ICON:undo-2}}</button>
+  <button data-act="clear" class="draw-only" title="Limpiar slide (C)">{{ICON:trash-2}}</button>
+  <span id="swatches"></span>
+  <span class="sep"></span>
+  <button data-tool="comment" title="Comentario (Shift+C)">{{ICON:message-square-plus}}</button>
+  <button data-act="panel" title="Notas y comentarios (T)">{{ICON:notebook-pen}}</button>
+  <button data-act="edit" title="Editar textos (E)">{{ICON:type}}</button>
+  <span class="sep"></span>
+  <button data-act="overview" title="Vista general (O)">{{ICON:layout-grid}}</button>
+  <button data-act="presenter" title="Vista del presentador (S)">{{ICON:presentation}}</button>
+  <button data-act="sound" title="Sonido (U)">{{ICON:volume-x}}</button>
+  <button data-act="fullscreen" title="Pantalla completa (F)">{{ICON:maximize}}</button>
+  <button data-act="save" title="Guardar como HTML (Ctrl+S)">{{ICON:download}}</button>
+  <button data-act="help" title="Atajos (?)">{{ICON:keyboard}}</button>
+</nav>
+
+<aside id="panel" aria-label="Notas y comentarios">
+  <header>
+    <button data-tab="notes" class="on">Mis notas</button>
+    <button data-tab="comments">Comentarios</button>
+    <button class="x" data-act="panel" title="Cerrar">{{ICON:x}}</button>
+  </header>
+  <section class="tab on" data-tab="notes">
+    <div class="slide-ref" id="notes-ref"></div>
+    <textarea id="notes-input" placeholder="Escribe ideas, preguntas o acuerdos de esta slide…"></textarea>
+    <div class="actions">
+      <button data-act="export-md">Exportar minuta (.md)</button>
+      <button data-act="copy-md">Copiar</button>
+    </div>
+  </section>
+  <section class="tab" data-tab="comments">
+    <div class="actions"><button data-act="comment-mode">+ Nuevo comentario</button><button data-act="export-md">Exportar (.md)</button></div>
+    <div id="comment-list"></div>
+  </section>
+</aside>
+
+<div id="overview" class="overlay" role="dialog" aria-label="Vista general"><div class="grid"></div></div>
+<div id="palette" class="overlay" role="dialog" aria-label="Buscar"><div class="box-help"><input id="palette-input" placeholder="Ir a slide o ejecutar comando…" autocomplete="off"><ul></ul></div></div>
+<div id="help" class="overlay" role="dialog" aria-label="Atajos de teclado"><div class="box-help"><h2>Atajos de teclado</h2><div class="cols" id="help-list"></div></div></div>
+
+<div id="pv" aria-label="Vista del presentador">
+  <div class="next"><span class="lbl">Siguiente</span><div class="mini"></div></div>
+  <div class="clock"><span>Tiempo <b id="pv-elapsed">00:00</b></span><span class="pace" id="pv-pace"></span><span id="pv-now"></span><button id="pv-reset" type="button">Reiniciar</button><button id="pv-fminus" type="button">A−</button><button id="pv-fplus" type="button">A+</button></div>
+  <div class="pnotes" id="pv-notes"></div>
+</div>
+
+<script type="application/json" id="deck-config">{{CONFIG}}</script>
+<script type="application/json" id="deck-state">{{STATE}}</script>
+<script>
+{{ENGINE_JS}}
+</script>
+</body>
+</html>
