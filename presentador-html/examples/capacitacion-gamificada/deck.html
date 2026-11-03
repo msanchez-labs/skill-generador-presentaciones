@@ -1076,7 +1076,7 @@ body.idle{cursor:none}
   let resetArmed = 0;
   function resetConfirm() { if (Date.now() - resetArmed < 4000) return true; resetArmed = Date.now(); toast('Repite el comando para confirmar'); return false; }
   let palItems = [], palSel = 0;
-  function openPalette() { pal.classList.add('on'); palIn.value = ''; renderPal(); setTimeout(() => palIn.focus(), 20); }
+  function openPalette() { pal.classList.add('on'); palIn.value = ''; renderPal(); palIn.focus(); }
   function renderPal() {
     const q = norm(palIn.value);
     palItems = slides.map((s, i) => ({ label: titleOf(i), tag: String(i + 1), run: () => goto(i, 0) })).concat(COMMANDS.map(c => ({ label: c[0], tag: '⌘', run: c[1] })))

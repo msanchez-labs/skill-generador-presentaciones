@@ -30,4 +30,4 @@ jobs:
             python presentador-html/scripts/qa_deck.py "${d%.json}.html" --no-shots
           done
       - name: Pruebas del motor (Chromium, Firefox, WebKit)
-        run: python tests/test_engine.py --browsers chromium,firefox,webkit
+        run: python -u tests/test_engine.py --browsers chromium,firefox,webkit

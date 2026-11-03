@@ -115,6 +115,7 @@ def run(browser_name: str) -> list[str]:
         check(page.locator("#overview .thumb").count() == n, "O muestra la vista general", fails)
         page.keyboard.press("Escape")
         page.keyboard.press("g")
+        page.wait_for_function("document.activeElement && document.activeElement.id === 'palette-input'")
         page.keyboard.type("quiz")
         check(page.locator("#palette li").count() >= 1, "G abre la búsqueda", fails)
         page.keyboard.press("Escape")
