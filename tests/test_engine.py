@@ -24,6 +24,14 @@ def check(cond: bool, msg: str, fails: list[str]) -> None:
         fails.append(msg)
 
 
+def wait_index(page, i: int, ms: int = 6000) -> bool:
+    try:
+        page.wait_for_function(f"Deck.index === {i}", timeout=ms)
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def run(browser_name: str) -> list[str]:
     from playwright.sync_api import sync_playwright
 
@@ -46,11 +54,10 @@ def run(browser_name: str) -> list[str]:
         check(n == 14, f"carga {n} slides", fails)
 
         page.keyboard.press("ArrowRight")
-        page.wait_for_timeout(1300)
-        check(page.evaluate("Deck.index") == 1, "→ avanza a la slide 2", fails)
+        check(wait_index(page, 1), "→ avanza a la slide 2", fails)
+        page.wait_for_timeout(800)
         page.keyboard.press("ArrowLeft")
-        page.wait_for_timeout(1300)
-        check(page.evaluate("Deck.index") == 0, "← retrocede a la slide 1", fails)
+        check(wait_index(page, 0), "← retrocede a la slide 1", fails)
 
         # fragmentos (slide 5 tiene 4 pasos)
         page.evaluate("Deck.goto(4)")
@@ -61,8 +68,8 @@ def run(browser_name: str) -> list[str]:
         # ir a slide por número
         page.keyboard.type("3")
         page.keyboard.press("Enter")
+        check(wait_index(page, 2), "número + Enter salta a la slide 3", fails)
         page.wait_for_timeout(1300)
-        check(page.evaluate("Deck.index") == 2, "número + Enter salta a la slide 3", fails)
 
         # láser
         page.keyboard.press("l")
@@ -141,8 +148,7 @@ def run(browser_name: str) -> list[str]:
         pw.wait_for_function("window.Deck && document.body.classList.contains('presenter')")
         pw.wait_for_timeout(400)
         pw.keyboard.press("ArrowRight")
-        page.wait_for_timeout(900)
-        check(page.evaluate("Deck.index") == 10, "el presentador mueve la ventana de audiencia", fails)
+        check(wait_index(page, 10), "el presentador mueve la ventana de audiencia", fails)
 
         check(not errors, "sin errores de JavaScript" + (f": {errors[:2]}" if errors else ""), fails)
         browser.close()
