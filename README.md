@@ -53,7 +53,7 @@ Como skill de Claude: copia la carpeta `presentador-html/` donde tu cliente carg
 ## Uso manual
 
 ```bash
-python presentador-html/scripts/build_deck.py mi-charla/deck.json   # → mi-charla/deck.html
+python presentador-html/scripts/build_deck.py mi-charla/deck.json   # → mi-charla/deck.html (muestra la ruta y abre el navegador; --no-open para evitarlo)
 python presentador-html/scripts/qa_deck.py   mi-charla/deck.html    # → mi-charla/qa/contact-sheet.png + report.json
 ```
 Formato del `deck.json`: [`presentador-html/references/deck-schema.md`](presentador-html/references/deck-schema.md).

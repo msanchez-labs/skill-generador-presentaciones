@@ -693,6 +693,41 @@ def build(deck_path: Path, out: Path | None, optimize: bool = True) -> Path:
     return out
 
 
+# --------------------------------------------------------------------------- mostrar resultado
+def can_open_browser() -> bool:
+    """False en CI o en Linux sin entorno gráfico (servidores, contenedores)."""
+    import os
+    if os.environ.get("CI") or os.environ.get("PRESENTADOR_NO_OPEN"):
+        return False
+    if sys.platform.startswith("linux") and not (os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY")):
+        return False
+    return True
+
+
+def show_result(out: Path, open_browser: bool) -> None:
+    """Imprime SIEMPRE la ruta física y el enlace file://, e intenta abrir el navegador."""
+    out = out.resolve()
+    print("")
+    print("=" * 72)
+    print("PRESENTACIÓN LISTA")
+    print(f"  Archivo : {out}")
+    print(f"  Carpeta : {out.parent}")
+    print(f"  Abrir   : {out.as_uri()}")
+    opened = False
+    if open_browser and can_open_browser():
+        try:
+            import webbrowser
+            opened = webbrowser.open(out.as_uri())
+        except Exception:  # noqa: BLE001
+            opened = False
+    if opened:
+        print("  Estado  : abierta en el navegador predeterminado")
+    elif open_browser:
+        print("  Estado  : no se pudo abrir aquí (sin entorno gráfico o remoto). Abre la ruta de arriba con doble clic.")
+    print("  Atajos  : F pantalla completa · S presentador · ? ayuda")
+    print("=" * 72)
+
+
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -700,8 +735,10 @@ def main() -> None:
     ap.add_argument("deck", type=Path)
     ap.add_argument("--out", type=Path)
     ap.add_argument("--no-images-opt", action="store_true", help="Incrustar imágenes sin recomprimir")
+    ap.add_argument("--no-open", action="store_true", help="No abrir el navegador al terminar")
     a = ap.parse_args()
-    build(a.deck.resolve(), a.out.resolve() if a.out else None, not a.no_images_opt)
+    out = build(a.deck.resolve(), a.out.resolve() if a.out else None, not a.no_images_opt)
+    show_result(out, not a.no_open)
 
 
 if __name__ == "__main__":

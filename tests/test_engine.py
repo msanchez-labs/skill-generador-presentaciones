@@ -161,7 +161,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--browsers", default="chromium,firefox,webkit")
     a = ap.parse_args()
-    subprocess.run([sys.executable, str(SKILL / "scripts" / "build_deck.py"), str(DECK_JSON)], check=True)
+    subprocess.run([sys.executable, str(SKILL / "scripts" / "build_deck.py"), str(DECK_JSON), "--no-open"], check=True)
     fails: list[str] = []
     for b in a.browsers.split(","):
         fails += [f"{b}: {f}" for f in run(b.strip())]

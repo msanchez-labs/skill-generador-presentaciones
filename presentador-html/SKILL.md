@@ -81,11 +81,18 @@ python "SKILL_DIR/scripts/qa_deck.py" "<carpeta>/deck.html"
 - **Mira `qa/contact-sheet.png`** (Read): jerarquía clara, nada solapado, imágenes con sentido, variedad de layouts. Itera hasta que se vea profesional.
 - Rúbrica: `references/10-checklist-calidad.md` (≥ 85/100).
 
-## 7. Entregar
+## 7. Entregar (obligatorio mostrar el resultado)
 
-- Entrega `deck.html` (y la hoja de contacto si ayuda). Resumen en 3 líneas: estructura y tono elegidos, supuestos tomados, qué quedó en notas/apéndice.
-- Recuerda los atajos clave: **F** pantalla completa · **S** presentador · **L** láser · **D** lápiz · **Shift+D** resaltador · **Shift+C** comentario · **T** notas · **E** editar · **Ctrl+S** guardar · **?** ayuda.
-- Para compartir: algunos correos bloquean `.html` (enviar en .zip o link); Teams/SharePoint lo descargan en vez de mostrarlo. PDF de respaldo: abrir y Ctrl+P.
+`build_deck.py` imprime al final un bloque **PRESENTACIÓN LISTA** con la ruta física, la carpeta y el enlace `file://`, e intenta abrir el navegador predeterminado (se omite en CI o en Linux sin entorno gráfico; `--no-open` para desactivarlo).
+
+Al responder al usuario SIEMPRE:
+1. Da la **ruta física absoluta** del `deck.html` tal como la verá en su equipo (si trabajaste en un entorno remoto y copiaste el archivo a su carpeta, da la ruta de su carpeta, no la del entorno remoto).
+2. Si tienes una herramienta para enviar archivos al chat, **envía `deck.html`** para que pueda abrirlo desde ahí.
+3. Si el navegador no se abrió solo, dilo y explica: "abre el archivo con doble clic" (Windows: Explorador; macOS: Finder; Linux: gestor de archivos).
+4. Resumen en 3 líneas: estructura y tono, supuestos tomados, qué quedó en notas/apéndice.
+5. Atajos clave: **F** pantalla completa · **S** presentador · **L** láser · **D** lápiz · **Shift+D** resaltador · **Shift+C** comentario · **T** notas · **E** editar · **Ctrl+S** guardar · **?** ayuda.
+
+Para compartir: algunos correos bloquean `.html` (enviar en .zip o link); Teams/SharePoint lo descargan en vez de mostrarlo. PDF de respaldo: abrir y Ctrl+P.
 
 ## 8. Iterar
 

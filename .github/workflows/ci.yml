@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           for d in presentador-html/examples/*/deck.json; do
-            python presentador-html/scripts/build_deck.py "$d"
+            python presentador-html/scripts/build_deck.py "$d" --no-open
             python presentador-html/scripts/qa_deck.py "${d%.json}.html" --no-shots
           done
       - name: Pruebas del motor (Chromium, Firefox, WebKit)
