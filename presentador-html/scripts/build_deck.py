@@ -268,8 +268,20 @@ class Renderer:
     def source(self, s) -> str:
         return f'<p class="source" data-edit>{md_inline(s["source"])}</p>' if s.get("source") else ""
 
+    def figure(self, s) -> str:
+        f = s.get("figure")
+        if not f:
+            return ""
+        if isinstance(f, str):
+            f = {"src": f}
+        size = int(f.get("size", 200))
+        shape = " round" if f.get("shape") == "circle" else ""
+        self.i += 1
+        return (f'<div class="rise figure{shape}" style="--fig:{size}px;--i:{self.i}">'
+                f'{self.ph(dict(f, fit=f.get("fit", "contain"), credit=None), "", size * 2, size * 2)}</div>')
+
     def content_block(self, s) -> str:
-        return (self.eyebrow(s) + self.chips(s) + self.title(s) + self.lead(s) + self.text(s)
+        return (self.figure(s) + self.eyebrow(s) + self.chips(s) + self.title(s) + self.lead(s) + self.text(s)
                 + self.bullets(s.get("bullets")) + self.facts(s.get("facts")) + self.source(s))
 
     # tipos -------------------------------------------------------------------
@@ -627,7 +639,7 @@ def theme_css(theme: dict) -> str:
     v = [f"--{re.sub(r'(?<!^)(?=[A-Z])', '-', k).lower()}:{val}" for k, val in c.items()]
     v += [f"--font-display:{fam(theme['fonts'].get('display', 'inter'))}", f"--font-body:{fam(theme['fonts'].get('body', 'inter'))}",
           f"--font-mono:{fam(theme['fonts'].get('mono', 'jetbrains-mono'))}", f"--radius:{theme.get('radius', '14px')}",
-          f"--display-weight:{theme.get('displayWeight', 700)}", f"--display-tracking:{theme.get('displayTracking', '-0.02em')}"]
+          f"--display-weight:{theme.get('displayWeight', 700)}", f"--title-scale:{theme.get('titleScale', 1)}", f"--display-tracking:{theme.get('displayTracking', '-0.02em')}"]
     return ":root{" + ";".join(v) + "}\nbody.idle{cursor:none}"
 
 

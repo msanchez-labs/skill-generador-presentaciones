@@ -22,5 +22,6 @@
   },
   "radius": "14px",
   "displayWeight": 400,
-  "displayTracking": "-0.015em"
+  "displayTracking": "-0.015em",
+  "titleScale": 1.18
 }

@@ -1,5 +1,7 @@
 # 15 · Plan técnico de construcción
 
+> Estado: **implementado** en el repo `msanchez-labs/skill-generador-presentaciones` (skill `presentador-html`).
+>
 > Principio: **la presentación entregada tiene cero dependencias**. Las dependencias existen solo en la **máquina que genera**, son pocas, mainstream y multiplataforma (Windows, macOS, Linux).
 
 ## 1. Dos mundos separados
@@ -36,7 +38,7 @@ Todo escrito en JS/CSS vanilla, sin librerías de terceros:
 
 Peso estimado: motor 70–100 KB · fuentes 2 familias ~150 KB · íconos < 10 KB → **< 300 KB sin imágenes**.
 
-Código fuente mantenible: `engine/src/*.js` y `engine/src/*.css` separados por módulo; `build_deck.py` los **concatena** en el HTML (sin bundler, sin npm).
+Implementación v1: `assets/engine/engine.js` y `engine.css` (un archivo cada uno, organizados por secciones) + `template.html`; `build_deck.py` los **incrusta** en el HTML (sin bundler, sin npm).
 
 ### Compatibilidad con abrir por doble clic (`file://`)
 Restricciones que el motor respeta para funcionar abriendo el archivo directo en Windows/Mac/Linux:

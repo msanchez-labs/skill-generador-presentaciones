@@ -41,6 +41,7 @@ Colores de tema: `bg, surface, surface2, text, muted, line, accent, accent2, onA
 | `text` | Párrafo o lista de párrafos |
 | `bullets` | Lista de viñetas (máx. 3–5) |
 | `facts` | Lista con ícono: `[{icon, title, text}]` |
+| `figure` | Imagen pequeña sobre el título: `"ruta"` o `{src, alt, size:200, shape:"circle", fit:"contain"}` (logo, ilustración, fase lunar…) |
 | `chips` | Etiquetas: `["Día 7"]` o `[{icon, text}]` |
 | `image` | `"ruta"` o `{src, alt, credit, position, fit:"contain"}` |
 | `background` | `{image:{…}, overlay:"bottom\|left\|none", kenburns:true, grain:false, aurora:false}` |
