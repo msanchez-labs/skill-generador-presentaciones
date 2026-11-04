@@ -170,6 +170,19 @@ def run(browser_name: str) -> list[str]:
         pw.keyboard.press("ArrowRight")
         check(wait_index(page, 10), "el presentador mueve la ventana de audiencia", fails)
 
+        # aviso (toast) con tamaño normal en un deck con juego (regresión: se estiraba a todo el alto)
+        game_deck = SKILL / "examples" / "capacitacion-gamificada" / "deck.html"
+        if game_deck.exists():
+            g = ctx.new_page()
+            g.goto(game_deck.as_uri())
+            g.wait_for_function("window.Deck && Deck.count > 0")
+            g.mouse.click(5, 5)
+            g.keyboard.press("m")
+            g.wait_for_timeout(350)
+            h = g.evaluate("document.querySelector('#toast').getBoundingClientRect().height")
+            check(h < 80, f"aviso de M con alto normal en deck con juego ({h:.0f}px)", fails)
+            g.close()
+
         check(not errors, "sin errores de JavaScript" + (f": {errors[:2]}" if errors else ""), fails)
         browser.close()
     return fails
